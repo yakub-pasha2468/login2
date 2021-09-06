@@ -2,6 +2,8 @@ import time
 
 from selenium import webdriver
 import os
+from selenium.webdriver.chrome.options import Options
+
 
 def test_log_attendance():
     try:
