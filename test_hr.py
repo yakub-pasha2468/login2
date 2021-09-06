@@ -39,7 +39,6 @@ def test_log_attendance():
         time.sleep(2)
         driver.find_element_by_xpath("//button[text()='MARK ATTENDANCE']").click()
         # driver.find_element_by_xpath("//span[text()=' Mark attendance ']").click()
-        # test
 
     except Exception as e:
         driver.quit()
