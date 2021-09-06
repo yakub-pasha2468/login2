@@ -1,11 +1,12 @@
 import time
 
 from selenium import webdriver
-
+import os
 
 def test_log_attendance():
     try:
-        driver = webdriver.Chrome()
+        driver_path = os.path.join(os.getcwd(),"chromedriver.exe")
+        driver = webdriver.Chrome(executable_path=driver_path)
         driver.maximize_window()
         driver.set_page_load_timeout(60)
         driver.get("https://app.hrone.cloud/login")
