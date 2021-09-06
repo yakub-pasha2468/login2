@@ -5,8 +5,18 @@ import os
 
 def test_log_attendance():
     try:
-        driver_path = (r"/chromedriver.exe")
-        driver = webdriver.Chrome(executable_path=driver_path)
+        options = Options()
+        options.add_argument("--window-size=1440,768")
+        options.add_argument("--disable-gpu")
+        options.add_argument("--disable-extensions")
+        options.add_argument("--proxy-server='direct://'")
+        options.add_argument("--proxy-bypass-list=*")
+        options.add_argument("--start-maximized")
+        options.add_argument("disable-infobars")
+        options.add_argument("--no-sandbox")  # Bypass OS security model
+        options.add_argument("--disable-dev-shm-usage")  # overcome limited resource problems
+        options.headless = True
+        driver = webdriver.Chrome(executable_path=driver_path, options=options)
         driver.maximize_window()
         driver.set_page_load_timeout(60)
         driver.get("https://app.hrone.cloud/login")
