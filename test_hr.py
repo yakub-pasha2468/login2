@@ -5,7 +5,7 @@ from selenium import webdriver
 
 def test_log_attendance():
     try:
-        driver = webdriver.Chrome(executable_path=r"chromedriver.exe")
+        driver = webdriver.Chrome()
         driver.maximize_window()
         driver.set_page_load_timeout(60)
         driver.get("https://app.hrone.cloud/login")
