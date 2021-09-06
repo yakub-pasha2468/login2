@@ -6,7 +6,7 @@ name: Python application
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '36 10 * * *'
+    - cron:  '30 4 * * 2'
   push:
     branches: [ main ]
   pull_request:
