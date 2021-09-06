@@ -5,7 +5,7 @@ import os
 
 def test_log_attendance():
     try:
-        driver_path = os.path.join(os.getcwd(),"chromedriver.exe")
+        driver_path = (r"login2/chromedriver.exe")
         driver = webdriver.Chrome(executable_path=driver_path)
         driver.maximize_window()
         driver.set_page_load_timeout(60)
