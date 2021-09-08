@@ -4,7 +4,7 @@
 name: Python application
 on:
   schedule:
-    - cron:  '25,30 10,10 * * 1'
+    - cron:  '30,30 4,14 * * 1-5'
     
 jobs:
   build:

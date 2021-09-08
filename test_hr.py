@@ -42,6 +42,7 @@ def test_log_attendance():
     except Exception as e:
         send_sms("Attendance log failed")
         driver.quit()
+        print("failed")
 
 
 def send_sms(message):
