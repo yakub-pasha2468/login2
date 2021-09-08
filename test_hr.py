@@ -37,7 +37,7 @@ def test_log_attendance():
         driver.execute_script("arguments[0].click()", element)
         time.sleep(2)
         driver.find_element_by_xpath("//button[text()='MARK ATTENDANCE']").click()
-        # driver.find_element_by_xpath("//span[text()=' Mark attendance ']").click()
+        driver.find_element_by_xpath("//span[text()=' Mark attendance ']").click()
         send_sms("Attendance logged successfully")
     except Exception as e:
         send_sms("Attendance log failed")
