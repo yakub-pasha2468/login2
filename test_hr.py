@@ -38,11 +38,13 @@ def test_log_attendance():
         time.sleep(2)
         driver.find_element_by_xpath("//button[text()='MARK ATTENDANCE']").click()
         driver.find_element_by_xpath("//span[text()=' Mark attendance ']").click()
+        print("Passed")
         send_sms("Attendance logged successfully")
+
     except Exception as e:
+        print("failed" + str(e))
         send_sms("Attendance log failed")
         driver.quit()
-        print("failed")
 
 
 def send_sms(message):
