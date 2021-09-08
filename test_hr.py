@@ -28,7 +28,7 @@ def test_log_attendance():
         driver.find_element_by_id("hrone-password").send_keys("#Moneyheist@789")
         time.sleep(2)
         driver.find_element_by_xpath("//span[text()=' LOG IN ']").click()
-        time.sleep(5)
+        time.sleep(10)
         eles = driver.find_elements_by_xpath("//a[text()='May be Later']")
         if len(eles)>0:
             eles[0].click()
@@ -45,6 +45,7 @@ def test_log_attendance():
         print("failed" + str(e))
         send_sms("Attendance log failed")
         driver.quit()
+        assert False
 
 
 def send_sms(message):
