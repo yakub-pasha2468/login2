@@ -1,7 +1,6 @@
 import time
-
+import requests
 from selenium import webdriver
-import os
 from selenium.webdriver.chrome.options import Options
 
 
@@ -39,7 +38,18 @@ def test_log_attendance():
         time.sleep(2)
         driver.find_element_by_xpath("//button[text()='MARK ATTENDANCE']").click()
         # driver.find_element_by_xpath("//span[text()=' Mark attendance ']").click()
-
+        send_sms("Attendance logged successfully")
     except Exception as e:
+        send_sms("Attendance log failed")
         driver.quit()
 
+
+def send_sms(message):
+    url = "https://www.fast2sms.com/dev/bulkV2"
+    querystring = {"authorization": "F9ZR78D0iBqpEIw2UCszkAfcrKlNdOojvJh5LHeMn3XG6mbQWPOSIok7AWdhj58FJmrEq9XaRexpMLw3",
+                   "message": message, "language": "english",
+                   "route": "q", "numbers": "9849909905"}
+    headers = {
+        'cache-control': "no-cache"
+    }
+    requests.request("GET", url, headers=headers, params=querystring)
