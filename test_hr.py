@@ -39,11 +39,11 @@ def test_log_attendance():
         driver.execute_script("arguments[0].click()", element)
         time.sleep(5)
         ele = driver.find_element_by_xpath("//button[text()='MARK ATTENDANCE']")
-        driver.execute_script("arguments[0].click()", ele)
+        ele.click()
         time.sleep(5)
         submit = driver.find_element_by_xpath("//span[text()=' Mark attendance ']")
-        driver.execute_script("arguments[0].click()", submit)
-
+        submit.click()
+        print("clicked on submit")
         print("Passed")
         send_sms("Attendance logged successfully")
 
