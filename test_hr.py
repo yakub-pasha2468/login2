@@ -2,6 +2,7 @@ import time
 import requests
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import os
 
 
 def test_log_attendance():
@@ -17,6 +18,7 @@ def test_log_attendance():
         options.add_argument("--no-sandbox")  # Bypass OS security model
         options.add_argument("--disable-dev-shm-usage")  # overcome limited resource problems
         options.headless = True
+        os.chmod('/path/to/chromedriver', 0755)
         driver = webdriver.Chrome(options=options,executable_path="./chromedriver")
         driver.maximize_window()
         driver.set_page_load_timeout(60)
