@@ -17,7 +17,7 @@ def test_log_attendance():
         options.add_argument("--no-sandbox")  # Bypass OS security model
         options.add_argument("--disable-dev-shm-usage")  # overcome limited resource problems
         options.headless = True
-        driver = webdriver.Chrome(options=options)
+        driver = webdriver.Chrome(chrome_options=options,executable_path="chromedriver.exe")
         driver.maximize_window()
         driver.set_page_load_timeout(60)
         driver.get("https://app.hrone.cloud/login")
