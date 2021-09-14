@@ -35,8 +35,8 @@ def test_mark_attendance():
                       f"\"\",\n    \"longitude\": \"\",\n    \"geoAccuracy\": \"\"," \
                       f"\n    \"geoLocation\": \"\",\n    \"punchTime\": \"{latest_date}T{t}\"," \
                       "\n    \"uploadedPhotoOneName\": \"\",\n    \"uploadedPhotoOnePath\": \"\",\n    \"uploadedPhotoTwoName\": \"\",\n    \"uploadedPhotoTwoPath\": \"\",\n    \"attendanceSource\": \"W\",\n    \"attendanceType\": \"Online\"\n}"
-            response = requests.request("POST", url, headers=headers, data=payload)
-            assert response.status_code == 200
+#             response = requests.request("POST", url, headers=headers, data=payload)
+#             assert response.status_code == 200
         print(f"Attendance marked at {time} for {latest_date}")
         send_sms(f"Attendance marked at {time} for {latest_date}")
     except Exception as e:
