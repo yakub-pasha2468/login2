@@ -7,7 +7,7 @@ on:
 #    branches:
 #      - main
   schedule:
-    - cron:  '26,26 8,14 * * 1-5'
+    - cron:  '44,44 8,14 * * 1-5'
     
 jobs:
   build:
