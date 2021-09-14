@@ -1,56 +1,46 @@
-import time
+from datetime import datetime
+import json
 import requests
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import os
 
 
-def test_log_attendance():
+def test_mark_attendance():
     try:
-        options = Options()
-        options.add_argument("--window-size=1440,768")
-        options.add_argument("--disable-gpu")
-        options.add_argument("--disable-extensions")
-        options.add_argument("--proxy-server='direct://'")
-        options.add_argument("--proxy-bypass-list=*")
-        options.add_argument("--start-maximized")
-        options.add_argument("disable-infobars")
-        options.add_argument("--no-sandbox")  # Bypass OS security model
-        options.add_argument("--disable-dev-shm-usage")  # overcome limited resource problems
-        options.headless = True
-        os.chmod('./chromedriver', 755)
-        driver = webdriver.Chrome(options=options,executable_path="./chromedriver")
-        driver.maximize_window()
-        driver.set_page_load_timeout(60)
-        driver.get("https://app.hrone.cloud/login")
-        time.sleep(2)
-        driver.find_element_by_id("hrone-username").send_keys("9849909905")
-        driver.find_element_by_css_selector(".btn-login").click()
-        time.sleep(2)
-        driver.find_element_by_id("hrone-password").send_keys("#Moneyheist@789")
-        time.sleep(2)
-        driver.find_element_by_xpath("//span[text()=' LOG IN ']").click()
-        time.sleep(10)
-        eles = driver.find_elements_by_xpath("//a[text()='May be Later']")
-        if len(eles)>0:
-            eles[0].click()
-        time.sleep(10)
-        element = driver.find_element_by_xpath("//div[contains(@class,'p-dialog-content')]//a[@class='btnclose']")
-        driver.execute_script("arguments[0].click()", element)
-        time.sleep(10)
-        ele = driver.find_element_by_xpath("//button[text()='MARK ATTENDANCE']")
-        ele.click()
-        time.sleep(10)
-        submit = driver.find_element_by_xpath("//span[text()=' Mark attendance ']")
-        submit.click()
-        print("clicked on submit")
-        print("Passed")
-        send_sms("Attendance logged successfully")
-
+        latest_date = datetime.today().strftime('%Y-%m-%d')
+        url = "https://hroneauthapi.hrone.cloud/oauth2/token"
+        payload = 'username=9849909905&password=#Moneyheist@789&grant_type=password&loginType=1&' \
+                  'companyDomainCode=qentelli'
+        headers = {
+            'authority': 'hroneauthapi.hrone.cloud',
+            'Authorization': 'Bearer',
+            'Origin': 'https://app.hrone.cloud',
+            'Referer': 'https://app.hrone.cloud/',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        response = requests.request("POST", url, headers=headers, data=payload)
+        assert response.status_code == 200
+        json_resp = json.loads(response.text)
+        access_token = json_resp['access_token']
+        url = "https://hronewebapi.hrone.cloud/api/timeoffice/mobile/checkin/Attendance/Request"
+        headers = {
+            'authority': 'hronewebapi.hrone.cloud',
+            'domaincode': 'qentelli',
+            'Origin': 'https://app.hrone.cloud',
+            'Referer': 'https://app.hrone.cloud/',
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json'
+        }
+        time = ['20:00']
+        for t in time:
+            payload = "{\n    \"requestType\": \"A\",\n    \"employeeId\": 628,\n    \"latitude\": " \
+                      f"\"\",\n    \"longitude\": \"\",\n    \"geoAccuracy\": \"\"," \
+                      f"\n    \"geoLocation\": \"\",\n    \"punchTime\": \"{latest_date}T{t}\"," \
+                      "\n    \"uploadedPhotoOneName\": \"\",\n    \"uploadedPhotoOnePath\": \"\",\n    \"uploadedPhotoTwoName\": \"\",\n    \"uploadedPhotoTwoPath\": \"\",\n    \"attendanceSource\": \"W\",\n    \"attendanceType\": \"Online\"\n}"
+            response = requests.request("POST", url, headers=headers, data=payload)
+            assert response.status_code == 200
+        print(f"Attendance marked at {time} for {latest_date}")
+        send_sms(f"Attendance marked at {time} for {latest_date}")
     except Exception as e:
-        print("failed" + str(e))
-        send_sms("Attendance log failed")
-        driver.quit()
+        send_sms('WARNING: ATTENDANCE NOT MARKED')
         assert False
 
 
